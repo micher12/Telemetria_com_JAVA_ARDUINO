@@ -1,0 +1,54 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "Main",
+			"projectName": "grafico_b9aea6b6"
+		},
+		{
+			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "Main",
+			"projectName": "grafico_30d2b942"
+		},
+		{
+			"type": "java",
+			"name": "Main",
+			"request": "launch",
+			"mainClass": "Main",
+			"projectName": "grafico_d3e71a8d"
+		},
+		{
+			"type": "java",
+			"name": "contadorController",
+			"request": "launch",
+			"mainClass": "contadorController",
+			"projectName": "grafico_db36e3be"
+		},
+		{
+			"type": "java",
+			"name": "teste",
+			"request": "launch",
+			"mainClass": "teste",
+			"projectName": "grafico_db36e3be"
+		},
+		{
+			"vmArgs": "--module-path \"e:/daki-curso/java-libs/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml",
+			"type": "java",
+			"name": "Launch Current File",
+			"request": "launch",
+			"mainClass": "${file}"
+		},
+		{
+			"vmArgs": "--module-path \"e:/daki-curso/java-libs/openjfx-21.0.2_windows-x64_bin-sdk/javafx-sdk-21.0.2/lib\" --add-modules javafx.controls,javafx.fxml",
+			"type": "java",
+			"name": "Launch App",
+			"request": "launch",
+			"mainClass": "App"
+		}
+	]
+}
