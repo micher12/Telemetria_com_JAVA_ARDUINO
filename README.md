@@ -5,7 +5,7 @@
 ![Captura de tela 2024-04-11 181636](https://github.com/micher12/Telemetria_com_JAVA_ARDUINO/assets/84326814/7d71e132-3eb5-4d81-ab22-461c21b929f0)
 
 ## Interface
- Pode ser controlada manualmente, tanto com o sensnor do arduino.
+ Pode ser controlada manualmente, tanto com o sensor do arduino.
  
 ![image](https://github.com/micher12/Telemetria_com_JAVA_ARDUINO/assets/84326814/fb48f607-3270-449f-a299-0abc4c20405a)
 
