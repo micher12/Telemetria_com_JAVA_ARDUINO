@@ -36,7 +36,7 @@ public class Arduino{
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Não foi possível encontrar o Arduino");
-            e.printStackTrace();
+           
         } finally {
             if (comPort.isOpen()) {
                 comPort.closePort();

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane prefHeight="418.0" prefWidth="808.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="452.0" minWidth="10.0" prefWidth="264.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="322.0" minWidth="10.0" prefWidth="282.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="262.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="188.0" minHeight="10.0" prefHeight="60.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="203.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="241.0" minHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="start" mnemonicParsing="false" onAction="#inicioContador" prefHeight="34.0" prefWidth="86.0" text="Início" GridPane.columnIndex="1">
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnMarcarVolta" mnemonicParsing="false" onAction="#marcarVolta" prefHeight="34.0" prefWidth="134.0" text="Marcar Volta" GridPane.columnIndex="2">
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="stop" mnemonicParsing="false" onAction="#pararContador" prefHeight="34.0" prefWidth="86.0" text="Parar">
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" prefHeight="32.0" prefWidth="92.0" text="Tempo:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="cronometro" text="00:00:00:000" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="resultado" alignment="TOP_LEFT" prefHeight="120.0" prefWidth="340.0" text="RESULTADO" GridPane.rowIndex="3">
+               <padding>
+                  <Insets bottom="14.0" left="12.0" right="12.0" top="14.0" />
+               </padding>
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="allRestults" mnemonicParsing="false" onAction="#showAllResults" text="Exibir todos os tempos" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Montserrat Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

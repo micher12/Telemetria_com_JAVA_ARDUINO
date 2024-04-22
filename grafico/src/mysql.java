@@ -1,5 +1,7 @@
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class mysql {
 
 
@@ -16,11 +18,24 @@ public class mysql {
         this.execute = execute;
     }
     
+    static Connection conectar() {
+        Connection con;
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database, "root", null);
+            
+        }catch(Exception e){
+            con = null;
+            JOptionPane.showMessageDialog(null, "Não foi possível conectar com o banco de dados.");
+        }
+
+        return con;
+    }
+
     public int takeId(){
         int i = 1;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database, "root", null);
+            Connection conectar = conectar();
             PreparedStatement stmt = conectar.prepareStatement("SELECT * FROM cronometro ORDER BY ID DESC LIMIT 1");
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -30,8 +45,8 @@ public class mysql {
                 //tem que ter algum dado(ID) primario na tabela
                 i = 1;
             }
-
             conectar.close();
+            stmt.close();
 
         } catch (Exception e) {
             System.out.println("Error ao pegar ID: "+e);
@@ -44,17 +59,18 @@ public class mysql {
     public void insertInto(int lastID){
         try {
             //inserindo os valores;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database , "root", null);
+            Connection conectar = conectar();
 
             //condition = 
             //"INSERT INTO cronometro (relative_id, time) VALUES(?,?)";
             String sql = "INSERT INTO "+table+" "+condition;
-            PreparedStatement pstmt = conectar.prepareStatement(sql);
-            pstmt.setInt(1, lastID);
-            pstmt.setString(2,execute);
-            pstmt.executeUpdate();
+            PreparedStatement stmt = conectar.prepareStatement(sql);
+            stmt.setInt(1, lastID);
+            stmt.setString(2,execute);
+            stmt.executeUpdate();
+
             conectar.close();
+            stmt.close();
             
         }catch(Exception e){
             System.out.println("Error ao inserir dados: "+e);
@@ -66,8 +82,8 @@ public class mysql {
     public static String selectAll(String query){
         String result = "";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database, "root", null);
+            Connection conectar = conectar();
+
             PreparedStatement stmt = conectar.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             int i = 1;
@@ -81,14 +97,17 @@ public class mysql {
                         result += "             "+y+"° volta:"+resultado.getString(2)+"\n";
                         y++;
                     }
-                    
+
+                    voltas.close();
                 } catch (Exception e) {
                     
                 }
                 result += "\n\n";
                 i++;
             }
+
             conectar.close();
+            stmt.close();
 
         } catch (Exception e) {
             System.out.println(e);
@@ -102,8 +121,7 @@ public class mysql {
         String result = "";
         
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + database, "root", null);
+            Connection conectar = conectar();
 
             String query = "SELECT * FROM " + table + " WHERE relative_id = ?";
             
@@ -116,8 +134,9 @@ public class mysql {
                 result += i+"° volta: "+rs.getString(3)+"\n";
                 i++;
             }
+
             conectar.close();
-            
+            stmt.close();
 
         } catch (Exception e) {
             //System.out.println(e);
@@ -130,17 +149,18 @@ public class mysql {
     public static void volta(int lastID, String timeFormatted){
         try {
             //inserindo os valores;
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+database , "root", null);
+            Connection conectar = conectar();
 
             //condition = 
             //"INSERT INTO cronometro (relative_id, time) VALUES(?,?)";
             String sql = "INSERT INTO volta (relative_id, time) VALUES(?,?)";
-            PreparedStatement pstmt = conectar.prepareStatement(sql);
-            pstmt.setInt(1, lastID);
-            pstmt.setString(2, timeFormatted);
-            pstmt.executeUpdate();
+            PreparedStatement stmt = conectar.prepareStatement(sql);
+            stmt.setInt(1, lastID);
+            stmt.setString(2, timeFormatted);
+            stmt.executeUpdate();
+
             conectar.close();
+            stmt.close();
             
         }catch(Exception e){
             System.out.println("Error ao inserir dados: "+e);
