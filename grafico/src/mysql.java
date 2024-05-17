@@ -8,14 +8,12 @@ public class mysql {
     static String database = "javadb";
     private static String table;
     private static String condition;
-    private static String execute;
 
     @SuppressWarnings("static-access")
-    public mysql(String table, String condition , String execute){
+    public mysql(String table, String condition){
         //metodo construct
         this.table = table;
         this.condition = condition;
-        this.execute = execute;
     }
     
     static Connection conectar() {
@@ -32,37 +30,40 @@ public class mysql {
         return con;
     }
 
-    public int takeId(){
+    //Recuperando o ultimo id da tabela.
+    public static int takeId(){
         int i = 1;
         try {
             Connection conectar = conectar();
             PreparedStatement stmt = conectar.prepareStatement("SELECT * FROM cronometro ORDER BY ID DESC LIMIT 1");
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                //conseguiu executar o comando.
+
                 i = rs.getInt(1) + 1;
-                //System.out.println("Último ID inserido: " + i);
             } else {
-                //tem que ter algum dado(ID) primario na tabela
+                //não encontrou dados na tabela.
+
                 i = 1;
             }
             conectar.close();
             stmt.close();
 
         } catch (Exception e) {
-            System.out.println("Error ao pegar ID: "+e);
+            JOptionPane.showMessageDialog(null,"Error ao pegar ID: "+e);
         }
 
         return i;
     }
 
 
-    public void insertInto(int lastID){
+    //Inserindo dados na tabela.
+    public void insertInto(int lastID, String execute){
         try {
-            //inserindo os valores;
             Connection conectar = conectar();
 
-            //condition = 
-            //"INSERT INTO cronometro (relative_id, time) VALUES(?,?)";
+            //Exmplo da query passada:
+            //"INSERT INTO cronometro VALUES(null,?,?)";
             String sql = "INSERT INTO "+table+" "+condition;
             PreparedStatement stmt = conectar.prepareStatement(sql);
             stmt.setInt(1, lastID);
@@ -73,12 +74,13 @@ public class mysql {
             stmt.close();
             
         }catch(Exception e){
-            System.out.println("Error ao inserir dados: "+e);
+            JOptionPane.showMessageDialog(null,"Error ao inserir dados: "+e);
         }
 
     }
 
 
+    //Selecionando todos os dados da tabela.
     public static String selectAll(String query){
         String result = "";
         try {
@@ -90,6 +92,8 @@ public class mysql {
             while(rs.next()){
                 result += i+"° lugar carro: "+rs.getString(1)+"\n       TEMPO TOTAL: "+rs.getString(3)+"\n";
                 try {
+                    //Realizando outra conexão usando os parametros da conexão anterior.
+
                     PreparedStatement voltas = conectar.prepareStatement("call buscarcomid("+rs.getString(2)+")");
                     ResultSet resultado = voltas.executeQuery();
                     int y = 1;
@@ -110,7 +114,7 @@ public class mysql {
             stmt.close();
 
         } catch (Exception e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Error ao realizar conexão: "+e);
         }
 
         return result;
@@ -139,31 +143,30 @@ public class mysql {
             stmt.close();
 
         } catch (Exception e) {
-            //System.out.println(e);
+            JOptionPane.showMessageDialog(null,"Error ao armazenar volta: "+e);
         }
 
         return result;
     }
 
 
-    public static void volta(int lastID, String timeFormatted){
+    public static void volta(int lastID, String execute){
         try {
             //inserindo os valores;
             Connection conectar = conectar();
 
-            //condition = 
-            //"INSERT INTO cronometro (relative_id, time) VALUES(?,?)";
-            String sql = "INSERT INTO volta (relative_id, time) VALUES(?,?)";
+            //Exmplo da query passada:
+            String sql = "INSERT INTO volta VALUES(null,?,?)";
             PreparedStatement stmt = conectar.prepareStatement(sql);
             stmt.setInt(1, lastID);
-            stmt.setString(2, timeFormatted);
+            stmt.setString(2, execute);
             stmt.executeUpdate();
 
             conectar.close();
             stmt.close();
             
         }catch(Exception e){
-            System.out.println("Error ao inserir dados: "+e);
+            JOptionPane.showMessageDialog(null,"Error ao inserir dados: "+e);
         }
     }
 

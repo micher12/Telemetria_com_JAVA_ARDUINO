@@ -6,6 +6,7 @@ public class Arduino{
     private boolean resposta;
 
     public Arduino(){
+
         new Thread(() -> {
         
         SerialPort comPort = SerialPort.getCommPort("COM5");  //abrindo porta COM
@@ -13,14 +14,15 @@ public class Arduino{
         try {
             comPort.openPort();
             comPort.setBaudRate(9600);  //frequencia da porta serial
-            comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 2000, 0); //timeout para o java conseguir processar primeiro
+            comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 2000, 0); //tempo para o java carregar primeiro
 
             StringBuilder message = new StringBuilder(); //criar uma String manipulavel
 
             while (true) {
                 if (comPort.getInputStream().available() > 0) { //verificar se tem dados do arduino para serem passados
+
                     int data = comPort.getInputStream().read(); //lê o byte passado pela porta serial
-                    char ch = (char) data;  //verter o byte para caracter
+                    char ch = (char) data;  //converter de bytes para caracter
 
                     message.append(ch);  //adiciona cada caracter para um unica String
 
@@ -36,7 +38,6 @@ public class Arduino{
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Não foi possível encontrar o Arduino");
-           
         } finally {
             if (comPort.isOpen()) {
                 comPort.closePort();

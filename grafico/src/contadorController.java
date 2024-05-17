@@ -10,10 +10,11 @@ import javafx.stage.Stage;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.JOptionPane;
 
 public class contadorController {
 
-    private int ms,s,min,hora,total,voltaMarcar,trueTimes = 0; //setando todos inteiros como zero
+    private int ms,s,min,hora,total,voltaMarcar,trueTimes; //setando todos inteiros como zero
     private boolean contadorAtivado = true; //melhor controle do contador
     private int lastID = 0; //recupar ultimo ID
 
@@ -43,14 +44,12 @@ public class contadorController {
 
     //recuperando ultimo ID e passando para variavel lastID.
     public contadorController(){
-        mysql sql = new mysql(null, null, null);
-        this.lastID = sql.takeId();
+        this.lastID = mysql.takeId();
     }
 
 
     @FXML
-    public void initialize(){
-        
+    public void initialize(){ //metodo chamada assim que a janela do javaFX aparece
         stop.setDisable(true);
         btnMarcarVolta.setDisable(true);
         
@@ -63,11 +62,13 @@ public class contadorController {
                 boolean controle = false;
                 while(true){
                     lock.lock();
+
                     try{
                         boolean resposta = arduino.getResposta();
                         if(controle != resposta){
                             if(resposta){
-                                //System.out.println("true");
+                                //retorna TRUE do sensor
+
                                 trueTimes++;
                                 if(trueTimes == 1){
                                     Platform.runLater(()->{
@@ -84,7 +85,7 @@ public class contadorController {
                                     });                                    
                                 }
                             }else{
-                                //System.out.println("false");
+                                //retorna FALSE do sensor
                                 
                             }
                             controle = resposta;
@@ -103,10 +104,13 @@ public class contadorController {
 
     @FXML
     void inicioContador(ActionEvent event) {
-        
 
         if(!contadorAtivado){
             contadorAtivado = true;
+        }
+
+        if(trueTimes != 1){
+            trueTimes = 1;
         }
 
         resultado.setText("");
@@ -160,6 +164,10 @@ public class contadorController {
 
     @FXML
     void marcarVolta(ActionEvent event) {
+        if(trueTimes != 2){
+            trueTimes = 2;
+        }
+
         voltaMarcar++;
         stop.setDisable(false);
         btnMarcarVolta.setDisable(true);
@@ -187,8 +195,8 @@ public class contadorController {
         String tempoTotal = formatarTempo(total/3600000, (total%3600000)/60000, (total%60000)/1000, total%1000);
 
         //Adicionando o tempo total no Banco de Dados.
-        mysql sql = new mysql("cronometro","VALUES(null,?,?)",tempoTotal);
-        sql.insertInto(lastID);
+        mysql sql = new mysql("cronometro","VALUES(null,?,?)");
+        sql.insertInto(lastID,tempoTotal);
 
         //Adicionando a ultima volta no Banco de Dados.
         String ultimaVolta = formatarTempo(hora, min, s, ms);
@@ -200,6 +208,7 @@ public class contadorController {
         resultado.setText(voltas+"Total: "+tempoTotal);
 
         start.setDisable(false);
+
         Platform.runLater(() -> {
             cronometro.setText("00:00:00:000");
         });
@@ -230,7 +239,7 @@ public class contadorController {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch(Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Não foi possível abrir a janela");
         }
     }
 
